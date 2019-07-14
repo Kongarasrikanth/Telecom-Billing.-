@@ -1,0 +1,155 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+using namespace std;
+class customer 
+{
+	protected:
+	int customer_id,c;
+	string customer_name;
+	int mobile_number;
+	string address;
+	public:
+	void reading_profile();
+	void display_profile();
+	void update_profile();
+
+};
+void customer::reading_profile()
+{
+	cout<<"Enter customer id: ";
+	cin>>customer_id;
+	
+	cout<<"Enter name: ";
+    cin>>customer_name;
+  
+	cout<<"Enter mobile number";
+	cin>>mobile_number;
+	
+    cout<<"Enter address";
+	cin>>address;   
+	
+	cout<<endl<<"enter:1 if you are a monthly user";
+	cout<<endl<<"enter:2 if you are a six months user";
+	cout<<endl<<"enter:3 if you are a yearly user";
+    cin>>c; 
+    
+}
+void customer::display_profile()
+{
+	cout<<"customer id is:"<<customer_id;
+	cout<<endl<<"customer name is:"<<customer_name;
+	cout<<endl<<"customer number is:"<<mobile_number;
+}
+void customer::update_profile()
+{
+	int a;
+	cout<<"Enter id you want to update";
+	cin>>a;
+	if(a==customer_id)
+	{
+		cout<<"Enter customer ID: ";
+	    cin>>customer_id;
+	
+     	cout<<"Enter name: ";
+        cin>>customer_name;
+  
+     	cout<<"Enter mobile number";
+	    cin>>mobile_number;
+	
+        cout<<"Enter address";
+	    cin>>address;
+		cout<<"Customer profile updated";	
+	}
+	else
+	{
+		cout<<"Please enter valid ID";
+	}
+	
+}
+class bill:public customer
+{
+	public:
+	void generate_bill();	
+};
+void bill::generate_bill()
+{
+	int b;
+    cout<<"Enter customer id to generate bill";
+	cin>>b;
+		if(b==customer_id)
+	{
+		if(c==1)
+		{
+	cout<<"bill for"<<customer_name<<"is rs 400";
+   }
+   else if(c==2)
+   {
+   	cout<<"bill for"<<customer_name<<"is rs 800";
+   }
+   else
+   {
+   cout<<"bill for"<<customer_name<<"is rs 1000";	
+   }
+}
+else
+{
+	cout<<"Please enter valid ID";
+}
+}
+int main()
+{  
+	  void create_menu();
+	  create_menu();
+
+	return 0;
+}
+void create_menu()
+
+{
+	fstream file;
+	bill b;
+	file.open("abc12.cpp", ios:: in|ios::out);
+int choice; 
+do{
+
+	cout<<endl<<"1.enter customer profile";
+	cout<<endl<<"2.update customer profile";
+	cout<<endl<<"3.generate bill";
+	cout<<endl<<"4.exit";
+	cout<<endl<<"Please enter your choice: ";
+	cin>>choice;
+		switch(choice)
+	{
+		case 1:
+		{
+			 b.reading_profile();
+			 file.write((char*)&b,sizeof(b));
+			 file.seekg(0);
+			 file.read((char*)&b,sizeof(b));
+			 	b.display_profile();
+			 	break;
+			}
+		case 2:
+		{
+		b.update_profile();
+		file.write((char*)&b,sizeof(b));
+			break;
+		}
+		case 3:
+		{
+			file.read((char*)&b,sizeof(b));
+			b.generate_bill();
+			break;
+		}
+		case 4:
+		{
+			
+			cout<<"thank you";
+			break;
+			
+		}					
+	}
+file.close();
+}while(choice!=4);
+}
